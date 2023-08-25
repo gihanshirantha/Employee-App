@@ -1,4 +1,5 @@
 import connectMongo from '../../../Database/Connection';
+import { getUsers } from '../../../Database/controller';
 
 export default async function handler(req, res) {
   try {
@@ -10,7 +11,7 @@ export default async function handler(req, res) {
   const { method } = req;
   switch (method) {
     case 'GET':
-      res.status(200).json({ method, name: 'GET Request' });
+      getUsers(req,res);
       break;
     case 'POST':
       res.status(200).json({ method, name: 'POST Request' });
