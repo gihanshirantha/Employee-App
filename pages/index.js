@@ -15,7 +15,7 @@ const handler=()=>{
   return (
     <main >
       <h1 className="text-xl md:text-5xl text-center font-bold py-10">
-        Employee Manage
+        Employee Manage Application
       </h1>
       <div className="container mx-auto flex justify-between py-5 border-b">
         <div className="left flex gap-3">
