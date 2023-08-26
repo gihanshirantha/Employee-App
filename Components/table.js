@@ -4,7 +4,7 @@ import { getUser } from "../lib/helper";
 
 export default function Table(){
 
-    getUser()
+    getUser().then(res=>console.log(res));
 
     return(
         <>
