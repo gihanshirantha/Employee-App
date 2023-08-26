@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { Reducer } from './reducer';
+import { ReducerSlice } from './reducer';
+
+// ...
 
 export const store = configureStore({
   reducer: {
-    empapp: Reducer
+    empapp: ReducerSlice.reducer
   }
 });
