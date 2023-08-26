@@ -2,6 +2,11 @@
 import { useReducer } from "react";
 import Success from "./Success";
 import Bug from "./Bug"
+import { useQueryClient,useMutation } from "react-query";
+
+import { addUser, getUser } from "../lib/helper";
+
+
 const formReduser=(state,event)=>{
     return{
         ...state,
@@ -12,15 +17,37 @@ const formReduser=(state,event)=>{
 
 export default function AddUserForm() {
 
+  const queryClient=useQueryClient()
+
     const [formData,setFormData]=useReducer(formReduser,{})
+
+    const addMutation=useMutation(addUser,{
+      onSuccess:()=>{
+        queryClient.prefetchQuery('users',getUser)
+      }
+    })
+
     const handleSubmit=(e)=>{
         e.preventDefault();
         if(Object.keys(formData).length==0)return console.log("Dont have Form Data");
-        console.log(formData)
+
+        let{fname,lname,email,salary,date,status}=formData;
+
+        const model={
+          name:`${fname} ${lname}`,
+          avatar:`http://randomuser.me/api/portraits/men/${Math.floor(Math.random()*10)}.jpg`,
+          email,
+          salary,
+          date,
+          status:status??"Active"
+        }
+          addMutation.mutate(model)
         
     }
-    if(Object.keys(formData).length>0)return<Success message={"Data Added"}/> 
-    
+
+    if(addMutation.isLoading)return <div>Loading!</div>
+    if(addMutation.isError)return <Bug message={addMutation.error.message}></Bug>
+    if(addMutation.isSuccess)return <Success message={"Added Successful"}></Success>
 
   return (
     
@@ -65,7 +92,7 @@ export default function AddUserForm() {
           <input
             onChange={setFormData}
             type="date"
-            name="Birth Day"
+            name="date"
             placeholder="Birth Day"
             className="border  px-5 py-3 focus:outline-none rounded-md"
           />
