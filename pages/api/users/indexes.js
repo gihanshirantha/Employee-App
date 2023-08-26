@@ -1,5 +1,5 @@
 import connectMongo from '../../../Database/Connection';
-import { getUsers, updateUsers} from '../../../Database/controller';
+import { deleteUsers, getUsers, updateUsers} from '../../../Database/controller';
 import { createUsers } from '../../../Database/controller';
 
 export default async function handler(req, res) {
@@ -21,7 +21,8 @@ export default async function handler(req, res) {
       updateUsers(req,res);
       break;
     case 'DELETE':
-      res.status(200).json({ method, name: 'DELETE Request' });
+      deleteUsers(req,res);
+      
       break;
     default:
       res.setHeader('Allow', ['GET', 'PUT', 'POST', 'DELETE']);

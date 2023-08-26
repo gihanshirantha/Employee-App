@@ -55,3 +55,20 @@ export async function updateUsers(req,res){
     }
 }
 
+// Delete user
+export async function deleteUsers(req,res){
+    try {
+        const {userId}=req.query;
+
+        if(userId){
+            const user=await User.findByIdAndDelete(userId);
+            res.status(200).json({message: "successfully Deleted"})
+        }
+        res.status(404).json({error:"User not selected"})
+
+        
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(404).json({error:"Not updated"})
+    }
+}
