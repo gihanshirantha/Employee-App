@@ -4,12 +4,16 @@ import { BiSolidUserPlus } from "react-icons/bi";
 import Table from '../Components/table';
 import Form from "../Components/form";
 import { useState } from "react";
+import { UseSelector,useDispatch, useSelector } from "react-redux";
+import { toggleChangeAction } from "../redux/reducer";
 
 export default function Home() {
-  const [visible,setVisible]=useState(false)
+  const visible=useSelector((state)=>state.empapp.client.toggleForm)
+
+  const dispatch=useDispatch()
 
 const handler=()=>{
-  setVisible(visible?false:true)
+  dispatch(toggleChangeAction())
 }
 
   return (

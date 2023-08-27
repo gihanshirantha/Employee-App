@@ -54,9 +54,11 @@ function Tr({id,name,avatar,email,salary,date,status}){
     const visible=useSelector((state)=>state.empapp.client.toggleForm)
 
     const dispatch=useDispatch();
+
+
 const onUpdate=()=>{
     dispatch(toggleChangeAction())
-    console.log(visible)
+    
 }
 
 
