@@ -3,7 +3,7 @@ import { BiEdit,BiTrash } from "react-icons/bi";
 import { getUser } from "../lib/helper";
 import { useQuery } from "react-query";
 import {  useSelector,useDispatch } from "react-redux";
-import { toggleChangeAction, updateAction } from "../redux/reducer";
+import { toggleChangeAction, updateAction,deleteAction } from "../redux/reducer";
 
 export default function Table(){
 
@@ -12,6 +12,8 @@ export default function Table(){
 
     if(isLoading) return <div>Emloyee is Loading</div>;
     if(isError) return <div>Got Error{error}</div>;
+
+    
 
     return(
         <>
@@ -64,6 +66,11 @@ const onUpdate=()=>{
     }
 }
 
+const onDelete=()=>{
+    if(!visible){
+        dispatch(deleteAction(_id))
+    }
+}
 
 
     return(
@@ -87,7 +94,7 @@ const onUpdate=()=>{
                     </td>
                     <td className="px-16 py-2 flex justify-around gap-5">
                         <button className="cursor" onClick={onUpdate}><span className="bg-green-500"><BiEdit size={25} color={"rgb(34,197,94)"}/></span></button>
-                        <button className="cursor"><span className="bg-green-500"><BiTrash size={25} color={"rgb(244,63,94)"}/></span></button>
+                        <button className="cursor" onClick={onDelete}><span className="bg-green-500"><BiTrash size={25} color={"rgb(244,63,94)"}/></span></button>
                         
                     </td>
                 </tr>

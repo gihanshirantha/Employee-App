@@ -3,21 +3,23 @@ import { useReducer } from "react";
 import Success from "./Success";
 import Bug from "./Bug"
 import { useQuery } from "react-query";
-import { getUser } from "../lib/helper";
-const formReduser=(state,event)=>{
-    return{
-        ...state,
-        [event.target.name]:event.target.value
-    }
+import { getUsers } from "../lib/helper";
+// const formReduser=(state,event)=>{
+//     return{
+//         ...state,
+//         [event.target.name]:event.target.value
+//     }
 
-}
+// }
 
 export default function UpdateUserForm({formId,formData,setFormData}) {
 
-  const {isLoading,isError,data,error}=useQuery(['users',formId],()=>getUser(formId))
+
+  
+  const {isLoading,isError,data,error}=useQuery(['users'.formId],()=>getUsers(formId))
   const {name,avatar,salary,date,email,status}=data;
   const [firstName, lastName] = name ? name.split('') : formData;
-
+  
     
     const handleSubmit=(e)=>{
         e.preventDefault();
