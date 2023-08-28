@@ -2,6 +2,8 @@
 import { useReducer } from "react";
 import Success from "./Success";
 import Bug from "./Bug"
+import { useQuery } from "react-query";
+import { getUser } from "../lib/helper";
 const formReduser=(state,event)=>{
     return{
         ...state,
@@ -10,16 +12,21 @@ const formReduser=(state,event)=>{
 
 }
 
-export default function UpdateUserForm() {
+export default function UpdateUserForm({formId,formData,setFormData}) {
 
-    const [formData,setFormData]=useReducer(formReduser,{})
+  const {isLoading,isError,data,error}=useQuery(['users',formId],()=>getUser(formId))
+  const {name,avatar,salary,date,email,status}=data;
+  const [firstName, lastName] = name ? name.split('') : formData;
+
+    
     const handleSubmit=(e)=>{
         e.preventDefault();
         if(Object.keys(formData).length==0)return console.log("Dont have Form Data");
         console.log(formData)
         
     }
-    if(Object.keys(formData).length>0)return<Success message={"Data Added"}/> 
+   if(isLoading) return<div>Lowading</div>
+   if(isError) return <div>Error</div>
     
 
   return (
@@ -29,6 +36,7 @@ export default function UpdateUserForm() {
           <input
             type="text"
             onChange={setFormData}
+            defaultValue={firstName}
             name="fname"
             placeholder="First Name"
             className="border w-full px-5 py-3 focus:outline-none rounded-md"
@@ -38,6 +46,7 @@ export default function UpdateUserForm() {
           <input
             type="text"
             onChange={setFormData}
+            defaultValue={lastName}
             name="lname"
             placeholder="Last Name"
             className="border w-full px-5 py-3 focus:outline-none rounded-md"
@@ -47,6 +56,7 @@ export default function UpdateUserForm() {
           <input
             type="text"
             onChange={setFormData}
+            defaultValue={email}
             name="email"
             placeholder="Email"
             className="border w-full px-5 py-3 focus:outline-none rounded-md"
@@ -55,6 +65,7 @@ export default function UpdateUserForm() {
         <div className="input-type">
           <input
             onChange={setFormData}
+            defaultValue={salary}
             type="text"
             name="salary"
             placeholder="Salary"
@@ -64,6 +75,7 @@ export default function UpdateUserForm() {
         <div className="input-type">
           <input
             onChange={setFormData}
+            defaultValue={date}
             type="date"
             name="Birth Day"
             placeholder="Birth Day"
@@ -75,7 +87,7 @@ export default function UpdateUserForm() {
             <input
             onChange={setFormData}
             type="radio"
-              
+              defaultValue={status=="Active"}
               id="radioDefault1"
               value="Active"
               name="status"
@@ -93,6 +105,7 @@ export default function UpdateUserForm() {
               type="radio"
               id="radioDefault2"
             onChange={setFormData}
+            defaultValue={status=="Inactive"}
             value="Inactive"
               name="status"
               className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 checked:border-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
